@@ -13,6 +13,38 @@
   </head>
 
   <body>
+
+    <div class="theme-switch-wrapper"></div>
+      <label class="theme-switch" for="theme-toggle-checkbox">
+        <input type="checkbox" id="theme-toggle-checkbox"/>
+        <div class="slider round"></div>
+      </label>        
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+        const themeToggleCheckbox = document.getElementById('theme-toggle-checkbox');
+        const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+        if (currentTheme) {
+          document.body.setAttribute('data-theme', currentTheme);
+        
+          if (currentTheme === 'dark') {
+            themeToggleCheckbox.checked = true;
+          }
+        }
+      
+        themeToggleCheckbox.addEventListener('change', function() {
+          if (this.checked) {
+            document.body.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+          } else {
+            document.body.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+          }
+        });
+      });
+    </script>
+
     <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
       <tr style="padding:0px">
         <td style="padding:0px">
@@ -25,9 +57,9 @@
                 <p>I'm a junior-level undergraduate studying Computer Science at the University of California, Santa Cruz.
                 </p>
                 <p>
-                  At UC Santa Cruz, I am fortunate to work with Prof. <a href="https://eric-xw.github.io/">Xin Eric Wang</a> in the UCSC Embodiment, Reasoning, Intelligence, and language Communication (ERIC) Lab.
+                  At UC Santa Cruz, I have the privilege of working with Prof. <a href="https://eric-xw.github.io/">Xin Eric Wang</a> in the UCSC Embodiment, Reasoning, Intelligence, and language Communication (ERIC) Lab. Check out our latest paper below, led by <a href="https://saa1605.github.io/">Saaket Agashe</a>!
                   </p><p>
-                  Previously, as a summer intern, I've had the pleasure of working with <a href="https://rcorona.github.io/">Rudy Corona</a> in the labs of Prof. Dan Klein and Prof. Trevor Darrell.
+                  Previously, as a summer intern in the labs of Prof. Dan Klein and Prof. Trevor Darrell, I investigated language grounding within the domain of video understanding, where I received the invaluable guidance of my mentor <a href="https://rcorona.github.io/">Rudy Corona</a>.
                 </p>
                 <p style="text-align:center">
                   <a href="mailto:ant@ucsc.edu">Email</a> &nbsp;/&nbsp;
@@ -56,26 +88,26 @@
           </tbody></table>
           <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
 
-            <!--
+            
             <tr>
               <td style="padding:20px;width:25%;vertical-align:middle">
-                <img src="images/clean_promo.jpg" alt="clean-usnob" width="160" height="160">
+                <img src="images/LLMC-Teaser.png" alt="LLMC-Teaser" width="310" height="160">
               </td>
               <td width="75%" valign="middle">
-                <a href="https://drive.google.com/file/d/1YvRx-4hrZoCk-nl6OgVJZlHAqOiN5hWq/view?usp=sharing">
-                  <span class="papertitle">Cleaning the USNO-B Catalog Through Automatic Detection of Optical Artifacts</span>
+                <a href="https://arxiv.org/abs/2310.03903">
+                  <span class="papertitle">LLM-Coordination: Evaluating and Analyzing Multi-agent Coordination Abilities in Large Language Models</span>
                 </a>
                 <br>
-                <strong>Jonathan T. Barron</strong>, <a href="http://stumm.ca/">Christopher Stumm</a>, <a href="http://cosmo.nyu.edu/hogg/">David W. Hogg</a>, <a href="http://www.astro.princeton.edu/~dstn/">Dustin Lang</a>, <a href="http://cs.nyu.edu/~roweis/">Sam Roweis</a>
+                Saaket Agashe, Yue Fan, <strong>Anthony Reyna</strong>, Xin Eric Wang
                 <br>
-                <em>The Astronomical Journal</em>, 135, 2008
-                <p>We use computer vision techniques to identify and remove diffraction spikes and reflection halos in the USNO-B Catalog.</p>
-                <p>In use at <a href="http://www.astrometry.net">Astrometry.net</a></p>
+                <em>Preprint</em>
+                <!--<p>We use computer vision techniques to identify and remove diffraction spikes and reflection halos in the USNO-B Catalog.</p>-->
+                <p><a href="https://github.com/eric-ai-lab/llm_coordination">Code</a></p>
               </td>
             </tr>
 
           </tbody></table>
-          -->
+          <!---->
           <!--
           <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20"><tbody>
             <tr>

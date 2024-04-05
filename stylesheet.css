@@ -1,3 +1,19 @@
+/* Light mode colors */
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --link-color: #0000ff;
+}
+
+/* Dark mode colors */
+@media (prefers-color-scheme: dark) {
+  :root {
+      --background-color: #121212;
+      --text-color: #ffffff;
+      --link-color: #bb86fc;
+  }
+}
+
 /* latin-ext */
 @font-face {
   font-family: 'Lato';
@@ -82,6 +98,28 @@ p,
 a {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 14px;
+  color: var(--text-color); /* Apply text color based on theme */
+}
+
+body {
+  background-color: var(--background-color); /* Apply background color to the body */
+}
+
+/* Override for manual theme switching */
+body[data-theme="light"] {
+  --background-color: #ffffff; /* Light mode background */
+  --text-color: #000000; /* Light mode text */
+  --link-color: #0000ff; /* Light mode links */
+}
+
+body[data-theme="dark"] {
+  --background-color: #121212; /* Dark mode background */
+  --text-color: #ffffff; /* Dark mode text */
+  --link-color: #bb86fc; /* Dark mode links */
+}
+
+a {
+  color: var(--link-color); /* Apply specific color to links */
 }
 
 strong {
@@ -132,4 +170,68 @@ h2 {
 
 span.highlight {
   background-color: #ffffd0;
+}
+
+.theme-switch-wrapper {
+  position: fixed; /* Or absolute, depending on your layout */
+  top: 20px; /* Distance from the top */
+  right: 20px; /* Distance from the right */
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+.theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 20px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "\263E"; /* Moon */
+  display: block;
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 1px;
+  transition: .4s;
+  font-size: 14px;
+  text-align: center;
+  line-height: 20px;
+}
+
+input:checked + .slider:before {
+  transform: translateX(16px);
+  content: "\2600"; /* Sun */
+  color: #000000;
+}
+
+input:checked + .slider {
+  background-color: #ccc;
+}
+
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
