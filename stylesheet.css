@@ -113,8 +113,8 @@ body[data-theme="light"] {
 }
 
 body[data-theme="dark"] {
-  --background-color: #8b8b8b; /* Dark mode background */
-  --text-color: #121212; /* Dark mode text */
+  --background-color: #121212; /* Dark mode background */
+  --text-color: #ffffff; /* Dark mode text */
   --link-color: #bb86fc; /* Dark mode links */
 }
 
