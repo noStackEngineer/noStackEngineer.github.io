@@ -1,0 +1,132 @@
+---
+import Base from '../layouts/Base.astro';
+import { publications, presentations, type Publication } from '../data/publications';
+import { links } from '../data/site';
+
+const scholar = links.find((l) => l.label === 'Scholar');
+
+function authorParts(authors: string) {
+  return authors.split('Anthony Reyna');
+}
+---
+
+<Base title="Publications" description="Papers and presentations by Anthony Reyna.">
+  <div class="container narrow">
+    <header class="page-head">
+      <h1>Publications</h1>
+      <p>
+        Papers and presentations from my research.
+        {scholar && <> Also on <a href={scholar.href}>Google Scholar</a>.</>}
+      </p>
+    </header>
+
+    {
+      [
+        { heading: 'Papers', items: publications },
+        { heading: 'Presentations', items: presentations },
+      ].map(({ heading, items }) => (
+        <section class="group">
+          <h2 class="label">{heading}</h2>
+          {items.map((pub: Publication) => {
+            const [before, after] = authorParts(pub.authors);
+            return (
+              <article class="pub">
+                <span class="year">{pub.year}</span>
+                <div>
+                  <h3>
+                    {pub.links[0] ? <a href={pub.links[0].href}>{pub.title}</a> : pub.title}
+                  </h3>
+                  <p class="authors">
+                    {before}
+                    {after !== undefined && <strong>Anthony Reyna</strong>}
+                    {after}
+                  </p>
+                  <p class="venue">{pub.venue}</p>
+                  <p class="links">
+                    {pub.links.map((l) => (
+                      <a href={l.href}>{l.label}</a>
+                    ))}
+                    {pub.project && <a href={`/projects/${pub.project}/`}>Project page</a>}
+                  </p>
+                </div>
+              </article>
+            );
+          })}
+        </section>
+      ))
+    }
+  </div>
+</Base>
+
+<style>
+  .group + .group {
+    margin-top: 3rem;
+  }
+
+  .label {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 1rem;
+  }
+
+  .pub {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .year {
+    color: var(--faint);
+    padding-top: 0.1rem;
+  }
+
+  h3 {
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
+    letter-spacing: 0;
+    line-height: 1.4;
+  }
+
+  h3 a {
+    color: var(--text);
+  }
+
+  h3 a:hover {
+    color: var(--accent);
+  }
+
+  .authors,
+  .venue,
+  .links {
+    margin: 0.3rem 0 0;
+    font-size: 0.95rem;
+  }
+
+  .authors {
+    color: var(--muted);
+  }
+
+  .venue {
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  @media (max-width: 520px) {
+    .pub {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+  }
+</style>

@@ -1,0 +1,191 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { links } from '../data/site';
+import { publications } from '../data/publications';
+import { getProjects, getPosts } from '../lib/content';
+import profile from '../assets/profile.jpg';
+
+const projects = await getProjects();
+const featured = projects.filter((p) => p.data.featured).slice(0, 3);
+const posts = (await getPosts()).slice(0, 3);
+---
+
+<Base>
+  <div class="container">
+    <section class="hero">
+      <div class="intro">
+        <p class="eyebrow">Software engineer</p>
+        <h1>Hi, I'm Anthony.</h1>
+        <p class="lede">
+          I build software, and I came to it through AI research. I graduated from UC Santa Cruz with a B.S. in
+          Computer Science in 2026. Before that I spent four years in research labs at UC Santa Cruz, UC Berkeley,
+          and Carnegie Mellon, working on LLM agents, vision-language models, and robot learning.
+        </p>
+        <p>
+          This summer I was a software engineering intern building AI tooling for a production LLM assistant. Now
+          I'm learning engine programming in <strong>C++ and Unreal Engine</strong>, and I'm looking for engineering
+          roles, both in games and in general software.
+        </p>
+        <ul class="link-row">
+          {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        </ul>
+      </div>
+      <figure class="portrait">
+        <Image
+          src={profile}
+          alt="Anthony with his great-grandmother and grandmother outside a cathedral"
+          widths={[360, 560, 800]}
+          sizes="(max-width: 760px) 70vw, 20rem"
+          loading="eager"
+        />
+      </figure>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Selected projects</h2>
+        <a href="/projects/">All projects →</a>
+      </div>
+      <div class="grid">
+        {featured.map((p) => <ProjectCard project={p} />)}
+      </div>
+    </section>
+
+    <section class="section narrow-block">
+      <div class="section-head">
+        <h2>Publications</h2>
+        <a href="/publications/">All publications →</a>
+      </div>
+      {
+        publications.map((pub) => (
+          <article class="pub">
+            <a class="pub-title" href={pub.links[0]?.href}>
+              {pub.title}
+            </a>
+            <p class="muted">
+              {pub.venue} ·{' '}
+              {pub.links.map((l, i) => (
+                <>
+                  {i > 0 && ' / '}
+                  <a href={l.href}>{l.label}</a>
+                </>
+              ))}
+            </p>
+          </article>
+        ))
+      }
+    </section>
+
+    {
+      posts.length > 0 && (
+        <section class="section narrow-block">
+          <div class="section-head">
+            <h2>Writing</h2>
+            <a href="/blog/">All posts →</a>
+          </div>
+          <ul class="posts">
+            {posts.map((post) => (
+              <li>
+                <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+                <time class="muted" datetime={post.data.date.toISOString()}>
+                  {post.data.date.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' })}
+                </time>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+  </div>
+</Base>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 18rem;
+    gap: 3rem;
+    align-items: center;
+    padding: 1.5rem 0 0.5rem;
+  }
+
+  .intro h1 {
+    margin: 0.35rem 0 1.1rem;
+  }
+
+  .intro p {
+    margin: 0 0 1rem;
+    max-width: 38rem;
+  }
+
+  .lede {
+    font-size: 1.15rem;
+  }
+
+  .intro .link-row {
+    margin-top: 1.5rem;
+  }
+
+  .portrait {
+    margin: 0;
+  }
+
+  .portrait :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center 30%;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    gap: 1.25rem;
+  }
+
+  .narrow-block {
+    max-width: var(--measure);
+  }
+
+  .pub {
+    padding: 0.25rem 0;
+  }
+
+  .pub-title {
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .pub p {
+    margin: 0.25rem 0 0;
+  }
+
+  .posts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .posts li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  @media (max-width: 760px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .portrait {
+      order: -1;
+      max-width: 16rem;
+    }
+  }
+</style>
