@@ -1,4 +1,5 @@
 ---
+import { existsSync } from 'node:fs';
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
@@ -10,6 +11,11 @@ import profile from '../assets/profile.jpg';
 const projects = await getProjects();
 const featured = projects.filter((p) => p.data.featured).slice(0, 3);
 const posts = (await getPosts()).slice(0, 3);
+
+// Bio links, with the CV after Email once public/cv.pdf exists.
+const bioLinks = existsSync('public/cv.pdf')
+  ? [links[0], { label: 'CV', href: '/cv.pdf' }, ...links.slice(1)]
+  : links;
 ---
 
 <Base>
@@ -29,7 +35,7 @@ const posts = (await getPosts()).slice(0, 3);
           roles, both in games and in general software.
         </p>
         <ul class="link-row">
-          {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+          {bioLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
         </ul>
       </div>
       <figure class="portrait">
